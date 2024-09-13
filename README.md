@@ -1,6 +1,6 @@
 # Application using Vonage Voice API to connect Voice calls to an ASR engine via WebSockets
 
-This sample application allows you to make or receive a voice call with a user, let that user to have some interaction with an IVR/Voice Bot if desired, then transfer the call to a second user.</br>
+This sample application allows you to make or receive a voice call with a user, let that user have some interaction with an IVR/Voice Bot if desired, then transfer the call to a second user.</br>
 
 Audio from both users are streamed via WebSockets to a [Connector](https://github.com/nexmo-se/deepgram-connector) for Automatic Speech Recognition (ASR), or other processing such as server-side noise cancellation, Voice AI, and more.
 
