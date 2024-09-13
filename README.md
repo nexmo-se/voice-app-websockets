@@ -1,23 +1,24 @@
 # Application using Vonage Voice API to connect Voice calls to an ASR engine via WebSockets
 
-This sample application allows you to make or receive a voice call with a user, let user have some interaction with an IVR/Voice Bot if desired, then transfer the call to a second user.</br>
-Audio from both users are streamed via WebSockets to a Connector for Automatic Speech Recognition (ASR), or other processing such as server-side noise cancellation, Voice AI, and more.
+This sample application allows you to make or receive a voice call with a user, let that user to have some interaction with an IVR/Voice Bot if desired, then transfer the call to a second user.</br>
+
+Audio from both users are streamed via WebSockets to a [Connector](https://github.com/nexmo-se/deepgram-connector) for Automatic Speech Recognition (ASR), or other processing such as server-side noise cancellation, Voice AI, and more.
 
 ## About this sample application
 
 This sample application makes use of Vonage Voice API to answer or place voice calls and set up WebSocket connections between Vonage API Voice platform and the Connector server.
 
-Each WebSocket will forward audio from the users to the Connector.
+Each WebSocket will forward audio from a user to the Connector.
 
-The Connector may be extended to send audio back over the WebSocket, for example from an external Text-to-Speech (TTS) engine, a Voice Bot, or the audio stream back after noise cancellation processing.
+The Connector may be extended to send audio back over the WebSocket, for example from an external Text-to-Speech (TTS) engine, a Voice Bot, or the audio is streamed back after noise cancellation processing.
 
-The voice call legs may be a mix-and-match of regular phone (aka Public Switched Telephone Network - PSTN) type, Session Initiation Protocol (SIP) type, WebRTC type, Viber type, or even from another WebSocket type.
+The voice call legs may be a mix-and-match of regular phone (aka Public Switched Telephone Network - **PSTN**) type, Session Initiation Protocol (**SIP**) type, **WebRTC** type, **Viber** type, or even from another **WebSocket** type.
 
-This sample application is with PSTN type legs for the users' voice calls, and can be easily extended to support the other leg types.
+This sample application is with PSTN type legs for the voice calls, and can be easily extended to support the other leg types.
 
 ## Set up the Connector server - Host server public hostname and port
 
-Deepgram is a service cloud provider for ASR.
+[Deepgram](https://deepgram.com/) is a service cloud provider for ASR.
 
 The Connector server provides the connection to Deepgram cloud servers for ASR.
 
@@ -34,9 +35,9 @@ For a `Local deployment`, you may use ngrok (an Internet tunneling service) for 
 To do that, [download and install ngrok](https://ngrok.com/download).</br>
 Sign in or sign up with [ngrok](https://ngrok.com/), from the ngrok web UI menu, follow the **Setup and Installation** guide.
 
-Set up two domains, one to forward to the local port 8000 (as this server application will be listening on port 8000), the other one to the local port 6000 for the Deepgram Connector application.
+Set up two domains, one to forward to the local port 8000 (as this Voice API application will be listening on port 8000), the other one to the local port 6000 for the Deepgram Connector application.
 
-Start ngrok to start both tunnels that forward to local ports 6000 and 8000,</br>
+Start ngrok on both tunnels that forward to local ports 6000 and 8000,</br>
 please take note of the ngrok **Enpoint URL** that forwards to local port 8000 as it will be needed in the next section,
 that URL looks like:</br>
 `https://yyyyyyyy.ngrok.io`
@@ -73,18 +74,18 @@ Note: If you are using ngrok for this sample application, the Answer URL and Eve
 
 - Click on [Generate public and private key] if you did not yet create or want new ones, save the private key file in this application folder as .private.key (leading dot in the file name).</br>
 
-**IMPORTANT**: Do not forget to click on [Save changes] at the bottom of the screen if you have created a new key set.</br>
+**VERY IMPORTANT**: Do not forget to click on [Save changes] at the bottom of the screen if you have created a new key set.</br>
 
 - Link a phone number to this application if none has been linked to the application.
 
 For the next steps, you will need:</br>
 - The [account API key](https://dashboard.nexmo.com/settings) (as environment variable **`API_KEY`**)</br>
-- The [account API secret](https://dashboard.nexmo.com/settings), not signature secret, (as environment variable **`API_SECRET`**)</br>
+- The [account API secret](https://dashboard.nexmo.com/settings), **not** signature secret, (as environment variable **`API_SECRET`**)</br>
 - The **`application ID`** (as environment variable **`APP_ID`**),</br>
 - The selected **`Region`** (as environment variable **`API_REGION`**),</br>
-- The **`linked phone number`** to your application (as environment variable **`SERVICE_PHONE_NUMBER`**).</br>
+- A **`linked phone number`** to your application (as environment variable **`SERVICE_PHONE_NUMBER`**).</br>
 
-- The Connector server public hostname and port (as **`PROCESSOR_SERVER`**) without any prefix such as https:// or wss://, without any trailing slash, or sub-path</br>
+- The Connector server public hostname and port (as **`PROCESSOR_SERVER`**) without any prefix such as https:// or wss://, without any trailing slash, or sub-path.</br>
 
 
 ## Running this Voice API application
@@ -102,7 +103,7 @@ Copy the `.env.example` file over to a new file called `.env`:
 cp .env.example .env
 ```
 
-Edit `.env` file, and set the five parameter values:</br>
+Edit `.env` file, and set the seven parameter values:</br>
 API_KEY=</br>
 API_SECRET=</br>
 APP_ID=</br>
@@ -112,12 +113,13 @@ PROCESSOR_SERVER</br>
 PSTN_CALLEE_NUMBER</br>
 
 
-Install dependencies once:
+
+Install dependencies:
 ```bash
 npm install
 ```
 
-Launch the applicatiom:
+Launch the application:
 ```bash
 node voice-app-websockets
 ```
@@ -176,8 +178,12 @@ See more details in above section **Set up your Vonage Voice API application cre
 
 
 From any phone, dial the Vonage number (the one in the .env file),
+
 or get called by entering in a web browser the address</br>
-https://<server-address>/startcall?callee=<number-to-call></br>
+`https://<server-address>/startcall?callee=<number-to-call>`</br>
+
+The `<server-address>` is the hostname where this application is running,
+the `<number-to-call>` is a phone number in E.164 format without a leading '+' sign.	
 
 
 ## How this Voice API application works
@@ -185,7 +191,7 @@ https://<server-address>/startcall?callee=<number-to-call></br>
 ### First call is an outbound call
 
 - You may initiate an outgoing call to a user by entering in a web browser the address</br>
-https://<server-address>/startcall?callee=<number-to-call></br>
+`https://<server-address>/startcall?callee=<number-to-call>`</br>
 - Once the call has been answered, GET `/answer_1` webhook gets called, it plays a Text-to-Speech (TTS) greeting to the callee ("action": "talk"), and drops that first leg, named PSTN 1 leg, into a named conference ("action": "conversation"),
 - Once that PSTN 1 leg is effectively attached to the conference (webhook POST `/event_1` with "type": "transfer"), it creates WebSocket 1 leg,
 - Once the WebSocket 1 connection has been accepted by the Connector server, GET `/ws_answer_1` webhook gets called, it drops that WebSocket 1 leg into the same named conference ("action": "conversation"); that WebSocket 1 listens only to PSTN 1 leg ("canHear" parameter),
