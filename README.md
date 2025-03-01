@@ -1,22 +1,32 @@
-# Application using Vonage Voice API to connect Voice calls to an ASR engine via WebSockets
+# Application using Vonage Voice API to connect Voice calls to AI engines via WebSockets
 
-This sample application allows you to make or receive a voice call with a user, let that user have some interaction with an IVR/Voice Bot if desired, then transfer the call to a second user.</br>
+## voice-app-websockets-inbound-outbound-calls.js
 
-Audio from both users are streamed via WebSockets to a [Connector](https://github.com/nexmo-se/deepgram-connector) for Automatic Speech Recognition (ASR), or other processing such as server-side noise cancellation, Voice AI, and more.
+This sample application allows receiving an incoming voice call (e.g. from a customer), then transfer the call to a second user (e.g. to a live agent).</br>
 
-## About this sample application
+Audio from both users are streamed via WebSockets to your AI processor platform, e.g. ASR, Voice AI, Noise Cancellation, and more.
 
-This sample application makes use of Vonage Voice API to answer or place voice calls and set up WebSocket connections between Vonage API Voice platform and the Connector server.
+## About these sample applications
 
-Each WebSocket will forward audio from a user to the Connector.
+The sample applications in this repository make use of Vonage Voice API to answer or place voice calls and set up WebSocket connections between Vonage API Voice platform and your processor platform or connector servers integrating a few AI services with sample codes provided too.
 
-The Connector may be extended to send audio back over the WebSocket, for example from an external Text-to-Speech (TTS) engine, a Voice Bot, or the audio is streamed back after noise cancellation processing.
+Each WebSocket will forward audio from a user to the processor platform.
+
+The processor platform may send audio back over the WebSocket, for example from an external Text-to-Speech (TTS) engine, a Voice Bot, or the audio is streamed back after noise cancellation processing.
 
 The voice call legs may be a mix-and-match of regular phone (aka Public Switched Telephone Network - **PSTN**) type, Session Initiation Protocol (**SIP**) type, **WebRTC** type, **Viber** type, or even from another **WebSocket** type.
 
+### voice-app-websockets-inbound-outbound-calls.js
+
+This sample application allows receiving an incoming voice call (e.g. from a customer), then transfer the call to a second user (e.g. to a live agent).</br>
+
+Audio from both users are streamed via WebSockets to your AI processor platform, e.g. ASR, Voice AI, Noise Cancellation, and more.
+
 This sample application is with PSTN type legs for the voice calls, and can be easily extended to support the other leg types.
 
-## Set up the Connector server - Host server public hostname and port
+## Set up the sample Connector server - Host server public hostname and port
+
+Instead of using your own Processor server you may use this sample Connector server.
 
 [Deepgram](https://deepgram.com/) is a service cloud provider for ASR.
 
@@ -119,10 +129,16 @@ Install dependencies:
 npm install
 ```
 
-Launch the application:
+Launch the desired application:
 ```bash
 node voice-app-websockets
 ```
+or
+
+```bash
+node voice-app-websockets
+```
+
 
 ### Command Line Heroku deployment
 
@@ -186,9 +202,20 @@ The `<server-address>` is the hostname where this application is running,
 the `<number-to-call>` is a phone number in E.164 format without a leading '+' sign.	
 
 
-## How this Voice API application works
+## How these Voice API applications work
 
-### First call is an outbound call
+### voice-app-websockets-inbound-outbound-calls.js
+
+TBD
+
+
+
+
+
+
+### voice-app-websockets.js
+#### First call is an outbound call
+
 
 - You may initiate an outgoing call to a user by entering in a web browser the address</br>
 `https://<server-address>/startcall?callee=<number-to-call>`</br>
@@ -204,7 +231,7 @@ the `<number-to-call>` is a phone number in E.164 format without a leading '+' s
 - When either user hangs up, all PSTN and WebSocket legs will be automatically terminated (parameter "endOnExit": "true"),
 - There is some additional code to handle the case where PSTN 1 user hangs up while PSTN 2 is still ringing, it would automatically stops the ringing of PSTN 2 leg.
 
-### First call is an inbound call
+#### First call is an inbound call
 
 - On an incoming call to the **`linked phone number`**, GET `/answer` webhook (the Answer webhook as set in your dashboard for this application) gets called, it plays a Text-to-Speech (TTS) greeting to the caller ("action": "talk"), and drops that first leg, named PSTN A leg, into a named conference ("action": "conversation"),
 - Once that PSTN A leg is effectively attached to the conference, POST `/event` webhook (the Event webhook as set in your dashboard for this application) gets called, with "type": "transfer", it creates WebSocket A leg,
