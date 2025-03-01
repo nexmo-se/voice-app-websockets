@@ -1,11 +1,5 @@
 # Application using Vonage Voice API to connect Voice calls to AI engines via WebSockets
 
-## voice-app-websockets-inbound-outbound-calls.js
-
-This sample application allows receiving an incoming voice call (e.g. from a customer), then transfer the call to a second user (e.g. to a live agent).</br>
-
-Audio from both users are streamed via WebSockets to your AI processor platform, e.g. ASR, Voice AI, Noise Cancellation, and more.
-
 ## About these sample applications
 
 The sample applications in this repository make use of Vonage Voice API to answer or place voice calls and set up WebSocket connections between Vonage API Voice platform and your processor platform or connector servers integrating a few AI services with sample codes provided too.
@@ -204,7 +198,7 @@ the `<number-to-call>` is a phone number in E.164 format without a leading '+' s
 
 ## How these Voice API applications work
 
-### voice-app-websockets-inbound-outbound-calls.js
+### Regarding voice-app-websockets-inbound-outbound-calls.js
 
 TBD
 
@@ -213,9 +207,9 @@ TBD
 
 
 
-### voice-app-websockets.js
-#### First call is an outbound call
+### Regarding voice-app-websockets.js application
 
+#### First call is an outbound call
 
 - You may initiate an outgoing call to a user by entering in a web browser the address</br>
 `https://<server-address>/startcall?callee=<number-to-call>`</br>
@@ -244,3 +238,4 @@ TBD
 - Transcripts will be received by this application (from the Connector) in real time, via the POST `/analytics` webhook,
 - When either user hangs up, all PSTN and WebSocket legs will be automatically terminated (parameter "endOnExit": "true"),
 - There is some additional code to handle the case where PSTN A user hangs up while PSTN B is still ringing, it would automatically stops the ringing of PSTN B leg.
+
