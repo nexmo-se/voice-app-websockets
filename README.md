@@ -20,11 +20,9 @@ This sample application is with PSTN type legs for the voice calls, and can be e
 
 ## Set up the sample Connector server - Host server public hostname and port
 
-Instead of using your own Processor server you may use this sample Connector server.
+Instead of using your own Processor server you may use the following sample Connector server.
 
-[Deepgram](https://deepgram.com/) is a service cloud provider for ASR.
-
-The Connector server provides the connection to Deepgram cloud servers for ASR.
+The sample Connector server provides the connection to [Deepgram](https://deepgram.com/) cloud servers for ASR.
 
 We use Deepgram ASR engine in this setup.
 
