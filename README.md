@@ -128,7 +128,7 @@ node voice-app-websockets
 or
 
 ```bash
-node voice-app-websockets
+node voice-app-websockets-inbound-outbound-calls
 ```
 
 
